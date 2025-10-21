@@ -31,4 +31,4 @@ COPY run.sh /
 RUN chmod a+x /run.sh
 
 # Run with s6-overlay managed process
-ENTRYPOINT ["/init"]
+CMD ["/run.sh"]

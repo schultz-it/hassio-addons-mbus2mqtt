@@ -1,6 +1,7 @@
 build_from:
-  aarch64: "ghcr.io/home-assistant/aarch64-addon-base:latest"
-  amd64: "ghcr.io/home-assistant/amd64-addon-base:latest"
-  armv7: "ghcr.io/home-assistant/armv7-addon-base:latest"
-  armhf: "ghcr.io/home-assistant/armhf-addon-base:latest"
+  aarch64: "ghcr.io/home-assistant/aarch64-base:3.19"
+  amd64: "ghcr.io/home-assistant/amd64-base:3.19"
+  armv7: "ghcr.io/home-assistant/armv7-base:3.19"
+  armhf: "ghcr.io/home-assistant/armhf-base:3.19"
+
 
