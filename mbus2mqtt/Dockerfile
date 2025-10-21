@@ -1,8 +1,11 @@
-# Use Alpine Linux as the base image
-FROM alpine:latest
+ARG BUILD_FROM
+FROM $BUILD_FROM
+
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install build dependencies
-RUN apk update && apk add \
+RUN apk update && apk add --no-cache \
     gcc \
     g++ \
     make \
@@ -13,19 +16,22 @@ RUN apk update && apk add \
     python3 \
     py3-pip
 
-# Clone the libmbus repository
-RUN git clone https://github.com/rscada/libmbus.git
+# Clone and build libmbus
+RUN git clone https://github.com/rscada/libmbus.git /libmbus && \
+    cd /libmbus && \
+    ./build.sh && \
+    make install && \
+    ldconfig /usr/local/lib || true
 
-# Change to the libmbus directory
-WORKDIR /libmbus
-
-# Build libmbus
-RUN ./build.sh
-RUN make install
-
-# env for mbus2mqtt
+# Copy addon files
 COPY mbus2mqtt-home-assistant /mbus2mqtt-home-assistant
 WORKDIR /mbus2mqtt-home-assistant
+
+# Install Python dependencies
 RUN pip3 install -r requirements.txt --break-system-packages
 
-CMD ["python3", "mbus2mqtt-home-assistant.py"]
+# Copy and set run script
+COPY run.sh /
+RUN chmod a+x /run.sh
+
+CMD ["/run.sh"]
