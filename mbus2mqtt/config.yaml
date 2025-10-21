@@ -1,0 +1,8 @@
+name: "M-Bus to MQTT"
+version: "1.1.0"
+slug: "mbus2mqtt"
+...
+schema:
+  mbus_devices:
+    - device_name: str
+      address: int(0,250)
