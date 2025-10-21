@@ -1,5 +1,5 @@
 name: "M-Bus to MQTT"
-version: "1.1.9"
+version: "1.1.10"
 slug: "mbus2mqtt"
 description: "M-Bus to MQTT bridge"
 arch:
