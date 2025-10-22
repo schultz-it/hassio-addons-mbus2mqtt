@@ -1,34 +1,32 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
+# Esegui con bash come shell predefinita
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install build dependencies
-RUN apk update && apk add --no-cache \
-    gcc \
-    g++ \
-    make \
-    autoconf \
-    automake \
-    libtool \
-    git \
-    python3 \
-    py3-pip
+# Installa dipendenze necessarie
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      build-essential \
+      git \
+      python3 \
+      python3-pip && \
+    rm -rf /var/lib/apt/lists/*
 
-# Clone and build libmbus
+# Build di libmbus
 RUN git clone https://github.com/rscada/libmbus.git /libmbus && \
-    cd /libmbus && ./build.sh && make install && ldconfig /usr/local/lib || true
+    cd /libmbus && ./build.sh && make install && ldconfig
 
-# Copy addon files
+# Copia file dell’addon
 COPY mbus2mqtt-home-assistant /mbus2mqtt-home-assistant
 WORKDIR /mbus2mqtt-home-assistant
 
-# Install Python dependencies
-RUN pip3 install -r requirements.txt --break-system-packages
+# Installa dipendenze Python
+RUN pip3 install -r requirements.txt
 
-# Copy run script
+# Script di avvio
 COPY run.sh /
 RUN chmod a+x /run.sh
 
-# Run with s6-overlay managed process
+# Avvio gestito da s6-overlay
 ENTRYPOINT ["/init"]
