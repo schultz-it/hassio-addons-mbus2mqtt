@@ -1,5 +1,7 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
+LABEL io.hass.type="addon"
+
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
