@@ -8,12 +8,13 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       build-essential \
-      git \
-      python3 \
-      python3-pip \
       autoconf \
       automake \
-      libtool && \
+      libtool \
+      libltdl-dev \
+      git \
+      python3 \
+      python3-pip && \
     rm -rf /var/lib/apt/lists/*
 
 # Build di libmbus
