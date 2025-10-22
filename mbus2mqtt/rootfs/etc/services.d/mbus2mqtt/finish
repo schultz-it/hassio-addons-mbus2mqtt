@@ -1,0 +1,2 @@
+#!/bin/bash
+bashio::log.info "M-Bus to MQTT stopped."
